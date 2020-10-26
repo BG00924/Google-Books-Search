@@ -12,27 +12,27 @@ const resolvers = {
             }
             throw new AuthenticationError('Not logged in')
         },
-        books: async (parent, { username }) => {
-            const params = username ? { username } : {}
-            return Book.find(params).sort({ createdAt: -1 })
-        },
-        book: async (parent, { bookId }) => {
-            return Book.findOne({ bookId })
-        },
-        // get all users
-        users: async () => {
-            return User.find()
-                .select('-__v -password')
-                .populate('friends')
-                .populate('thoughts');
-        },
-        // get a user by username
-        user: async (parent, { username }) => {
-            return User.findOne({ username })
-                .select('-__v -password')
-                .populate('friends')
-                .populate('thoughts');
-        },
+        // books: async (parent, { username }) => {
+        //     const params = username ? { username } : {}
+        //     return Book.find(params).sort({ createdAt: -1 })
+        // },
+        // book: async (parent, { bookId }) => {
+        //     return Book.findOne({ bookId })
+        // },
+        // // get all users
+        // users: async () => {
+        //     return User.find()
+        //         .select('-__v -password')
+        //         .populate('friends')
+        //         .populate('thoughts');
+        // },
+        // // get a user by username
+        // user: async (parent, { username }) => {
+        //     return User.findOne({ username })
+        //         .select('-__v -password')
+        //         .populate('friends')
+        //         .populate('thoughts');
+        // },
     },
     Mutation: {
         addUser: async (parent, args) => {
@@ -52,15 +52,14 @@ const resolvers = {
             const token = signToken(user)
             return {token, user}
         },
-        addBook: async (parent, args, context) => {
+        addBook: async (parent, {input}, context) => {
             if (context.user) {
-                const book = await Book.create({...args, username: context.user.username })
-                await User.findByIdAndUpdate(
+                const updatedUser = await User.findByIdAndUpdate(
                     { _id: context.user._id},
-                    { $push: { books: bookId } },
+                    { $addToSet: { savedBooks: input} },
                     { new: true }
                 )
-                return book
+                return updatedUser
             }
             throw new AuthenticationError('You need to be logged in!')
         },

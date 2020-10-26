@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Jumbotron, Container, Col, Form, Button, Card, CardColumns } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
-// import { saveBook, searchGoogleBooks } from '../utils/API';
+import { saveBook, searchGoogleBooks } from '../utils/API';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
 
 //importing mutations
@@ -72,14 +72,14 @@ const SearchBooks = () => {
 
     try {
       const {data} = await addBook({
-        variables: { bookId }
+        variables: { input: bookToSave }
       })
       
       if (error) {
         throw new Error('Not right, this is.')
       }
 
-      Auth.login(data.login.token)
+      // Auth.login(data.login.token)
 
       // if book successfully saves to user's account, save book id to state
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
