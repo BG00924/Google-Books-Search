@@ -33,6 +33,8 @@ const SavedBooks = () => {
         throw new Error('Something wrong, it is.')
       }
 
+      // Auth.login(data.login.token)
+
       // upon success, remove book's id from localStorage
       removeBookId(bookId);
     } catch (err) {
@@ -67,6 +69,7 @@ const SavedBooks = () => {
                   <Card.Title>{book.title}</Card.Title>
                   <p className='small'>Authors: {book.authors}</p>
                   <Card.Text>{book.description}</Card.Text>
+                  <Card.Text><a href={book.link}>Link to Book</ a></Card.Text>
                   <Button className='btn-block btn-danger' onClick={() => handleDeleteBook(book.bookId)}>
                     Delete this Book!
                   </Button>
