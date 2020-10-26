@@ -6,7 +6,8 @@
 
 ## Usage
 
-* Simply follow the link to the deployed application.
+* Simply follow the link to the deployed application:
+    * https://thawing-mountain-94434.herokuapp.com/
 
 ## Credits:
 
